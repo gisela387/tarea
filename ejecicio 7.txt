@@ -1,0 +1,75 @@
+  class Program
+    {
+        static void Main(string[] args)
+        {
+            persona[] person = new persona[3];
+
+            profesor per1 = new profesor("juan");
+            person[0] = per1;
+           
+            estudiante per2 = new estudiante("sara");
+            person[1] = per2;
+            
+            estudiante per3 = new estudiante("carlos");
+            person[2] = per3;
+
+            Console.WriteLine("impresion");
+            Console.WriteLine(per1.ToString());
+            per1.explicar();
+            Console.WriteLine(per2.ToString());
+            per2.estudiar();
+            Console.WriteLine(per3.ToString());
+            per3.estudiar();
+       
+            Console.ReadKey();
+        }
+    }
+
+
+   class persona
+    {
+        string nombre;
+        public persona(string nombre)
+        {
+            this.nombre = nombre;
+        }
+
+        public string Nombre { get => nombre; set => nombre = value; }
+
+        public override string ToString()
+        {
+            return $"nombre: {nombre}";
+        }
+    }
+
+
+
+ class estudiante : persona
+    {
+        public estudiante(string nombre)
+           : base(nombre)
+        {
+
+        }
+        public void estudiar()
+        {
+            Console.WriteLine("el estudiante esta estudiando");
+        }
+
+    }
+
+
+
+
+class profesor : persona
+    {
+        public profesor(string nombre)
+            : base(nombre)
+        {
+
+        }
+        public void explicar()
+        {
+            Console.WriteLine("el profesor esta explicando");
+        }
+    }

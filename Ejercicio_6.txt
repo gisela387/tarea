@@ -1,0 +1,174 @@
+
+
+                                               CLASE FORMA
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp88
+{
+    class Forma
+    {
+        public double area;
+        public double perimetro;
+        public Ubicacion coordenada;
+
+        public double Area { get => area; set => area = value; }
+        public double Perimetro { get => perimetro; set => perimetro = value; }
+
+        public virtual double CalArea()
+        {
+            return Area;
+        }
+
+        public virtual double CalPerimetro()
+        {
+            return Perimetro;
+        }
+
+        public override string ToString()
+        {
+            return "Area: "+Area+"\n"+"Perimetro: "+Perimetro;
+        }
+    }
+}
+
+                                     CLASE CIRCULO
+                                                
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp88
+{
+    class Circulo: Forma
+    {
+
+        protected double radio;
+
+        public Circulo(double radio)
+        {
+            this.radio = radio;
+        }
+
+        protected double Radio { get => radio; set => radio = value; }
+
+        public override double CalArea()
+        {
+            Area = Math.PI * (radio * 2);
+            return base.CalArea();
+        }
+
+        public override double CalPerimetro()
+        {
+            Perimetro = (2 * Math.PI) * radio;
+            return base.CalPerimetro();
+        }
+    }
+}
+
+                        CLASE RECTANGULO
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp88
+{
+    class Rectangulo : Forma
+    {
+
+        protected double lado1;
+        protected double  lado2;
+
+        public Rectangulo(double lado1, double lado2)
+        {
+            this.lado1 = lado1;
+            this.lado2 = lado2;
+        }
+
+        protected  double Lado1 { get => lado1; set => lado1 = value; }
+        protected double Lado2 { get => lado2; set => lado2 = value; }
+
+        public override double CalArea()
+        {
+            Area = this.Lado1* this.Lado2;
+            return base.CalArea();
+        }
+
+        public override double CalPerimetro()
+        {
+            Perimetro = (2 * this.Lado1) + (2 * this.Lado2);
+            return base.CalPerimetro();
+        }
+    }
+}
+                                               CLASE UBICACION
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp88
+{
+    class Ubicacion
+    {
+        private double x;
+        private double y;
+
+        public Ubicacion(double x, double y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
+        private double X { get => x; set => x = value; }
+        private double Y { get => y; set => y = value; }
+    }
+}
+
+
+                                            MAIN
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp88
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Rectangulo rec = new Rectangulo(2, 2);
+            Circulo cir = new Circulo(3);
+            rec.coordenada = new Ubicacion(2, 4);
+            rec.CalPerimetro();
+            rec.CalArea();
+            Console.WriteLine(rec.ToString());
+            cir.coordenada = new Ubicacion(6, 9);
+            cir.CalPerimetro();
+            cir.CalArea();
+            Console.WriteLine(cir.ToString());
+         
+            Console.ReadKey();
+
+
+        }
+    }
+}
+
+
+

@@ -1,0 +1,399 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections;
+
+namespace semana_1_clase_practica_1
+{
+    class Program
+    {
+            static void mensaje(string m)
+            {
+                Console.Write(m);
+            }
+            static void pedir(string m, ref int n)
+            {
+                Console.Write(m);
+                n = int.Parse(Console.ReadLine());
+            }
+            static void pedir(string m, ref char n)
+            {
+                Console.Write(m);
+                n = char.Parse(Console.ReadLine());
+            }
+            static void llenar(Stack pill)
+            {
+                int v = 0;
+                char r = 's';
+                mensaje("llenar la pila\n");
+                while (r == 's' || r == 'S')
+                {
+                    //pedir valores para llenar la pila
+                    pedir("ingrese el valor: ", ref v);
+                    pill.Push(v);
+                    //control del whila (la repuesta)
+                    pedir("hay mas datos\nteclee s para seguir o cualquier tecla para ir al menu: ", ref r);
+                }
+            }
+            static void llenar(Stack pill, Stack piax)
+            {
+                //cruzar los elemtos de la pila auxiliar a la principal
+                foreach (int n in piax)
+                {
+                    pill.Push(n);
+                }
+            }
+            static void imp(Stack pill)
+            {
+                foreach (int n in pill)
+                    Console.WriteLine(" {0} ", n);
+            }
+            static void Main(string[] args)
+            {
+                int opc = 0;
+                Stack pill = new Stack();
+                llenar(pill);
+                do
+                {
+                    mensaje("\n\n\tMENU\n");
+                    mensaje(" 1: ELIMINAR LOS NUMEROS PERFECTOS DE LA PILA\n ");
+                    mensaje(" 2: IMPRIMA CADA TERCER ELEMENTO DE LA PILA\n ");
+                    mensaje(" 3: IMPRIMA EL CUADRADO DE CADA ELEMENTO QUE HAY EN LA PILA\n ");
+                    mensaje(" 4: IMPRIMA EL VALOR ASCCII REPRESENTADO POR LOS VALORES EN LA PILA\n ");
+                    mensaje(" 5: ELIMINE TODOS LOS MULTIPLOS DE 5\n");
+                    mensaje(" 6: CONTAR LA CANTIDAD DE ELEMENTOS QUE HAY EN LA PILA\n ");
+                    mensaje(" 7: HACER UNA COPIA DE LA PILA\n");
+                    mensaje(" 8: IMPRIMIR TODOS LOS VALORES QUE SEAN MULTIPLO DE 9\n ");
+                    mensaje(" 9: ELIMINAR DE LA PILA TODOS LOS VALORES IMPARES\n ");
+                    mensaje(" 10: ELIMINE EL ELEMENTO DEL FONDO DE LA PILA\n ");
+                    mensaje(" 11: CALCULE E IMPRIMA LA SUMA DE TODOS LOS VALORES DE LA PILA\n ");
+                    mensaje(" 12: ELIMINE TODOS LOS NUMEROS PRIMOSn\n ");
+                    mensaje(" 13: salir \n");
+                    pedir("\n\nde la opcion: ", ref opc);
+                    switch (opc)
+                    {
+                        case 1:
+                            numperf(pill);
+                            break;
+                        case 2:
+                            tercer(pill);
+                            break;
+                        case 3:
+                            cuadra(pill);
+                            break;
+                        case 4:
+                            anscii(pill);
+                            break;
+                        case 5:
+                            mult5(pill);
+                            break;
+                        case 6:
+                            contar(pill);
+                            break;
+                        case 7:
+                            ;
+                            break;
+                        case 8:
+                            mult9(pill);
+                            break;
+
+                        case 9:
+                            copiar(pill);
+                            break;
+
+                        case 10:
+                            fondo(pill);
+                            break;
+
+                        case 11:
+                            sume(pill);
+                            break;
+
+                        case 12:
+                            primos(pill);
+                            break;
+
+                        case 13:
+                            mensaje("gracias por usar el programa"); ;
+                            break;
+
+                        default:
+                            mensaje("de una opcion dentro del rango");
+                            break;
+                    }
+                }
+                while (opc != 13);
+
+                Console.ReadKey();
+            }
+            static void numperf(Stack pill)
+            {
+            if (pill.Count != 0)
+            {
+                Stack piax = new Stack();
+                bool band = false;
+                foreach (int n in pill)
+                {
+                    int sd = 0;
+                    //la i comineza en uno e ira dividiendo al elemto hasta llegar a un numero menor que el elemento
+                    for (int i = 1; i < n; i++)
+                    {
+                        if (n % i == 0)
+                        {
+                            sd += i;
+                        }
+                    }
+                    //si la suma de los divisores es diferente al elemto significa que no es perfecto por lo tanto no se eliminara
+                    if (n == sd)
+                    {
+                        band = true;
+                        Console.WriteLine("\nel numero perfecto {0} se ha eliminado", n);
+                    }
+                    else
+                    {
+                        piax.Push(n);
+                    }
+                    sd = 0;
+                }
+                if (!band)
+                {
+                    mensaje("\nno hay numeros perfectos en la pila");
+                }
+                pill.Clear();
+                llenar(pill,piax);
+            }
+            else
+            {
+                Console.WriteLine("\nla pila no prsenta elementos");
+            }
+        }
+            static void tercer(Stack pill)
+            {
+                if (pill.Count != 0)
+                { Stack piax = new Stack();
+                    //ci iniciado en uno para que sea posoble la division
+                    int ci = 1;
+                    bool band = false;
+                    llenar(pill, piax);
+                    foreach (int n in piax)
+                    {
+                        //ci sera divisible entre 3 lo que significa que es pultiplo de 3
+                        if (ci % 3 == 0)
+                        {
+                            band = true;
+                            Console.WriteLine(" \n{0} ", n);
+                        }
+                        ci++;
+                    }
+                    if (!band)
+                    {
+                    mensaje("la tiene menos de tres elemtos");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("la pila no prsenta elementos");
+                }
+            }
+
+            static void cuadra(Stack pill)
+            {
+                if (pill.Count != 0)
+                {
+                    foreach (int n in pill)
+                    {
+                        Console.WriteLine("\nel cuadro del elemento {0} es {1} ", n, Math.Pow(n, 2));
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("la pila no presenta elemntos");
+                }
+            }
+        static void anscii (Stack pill)
+        {
+            if(pill.Count!=0)
+            {
+            foreach(int n in pill)
+                Console.WriteLine(" {0} ",(char)n);
+            }
+            else
+            {
+                mensaje("la hay elemtos");
+            }
+        }
+            static void mult5(Stack pill)
+            {
+            if (pill.Count != 0)
+            {
+                Stack piax = new Stack();
+                bool band = false;
+                //llenar la pila auxiliar con los valores que no se eliminaran   
+                foreach (int n in pill)
+                {
+                    if (n % 5 == 0)
+                    {
+                        Console.WriteLine("el nuemro {0} se elimino",n);
+                        band = true;
+                    }
+                    else
+                    {
+                        piax.Push(n);
+                    }
+                }
+                if (!band)
+                {
+                    mensaje("la pila no presenta multiplos de 5");
+                }
+                pill.Clear();
+                llenar(pill, piax);
+            }
+            else
+            {
+                mensaje("la pila no presenta elementos");
+            }
+
+            }
+            static void contar(Stack pill)
+            {
+                int cd = 0;
+                foreach (int n in pill)
+                    cd++;
+                Console.WriteLine("hay {0} elemtos en la pila", cd);
+            }
+            static void copiar(Stack pill)
+            {
+            Stack pila = (Stack)pill.Clone();
+            foreach(int n in pila)
+                Console.WriteLine(" {0} ",n);
+            }
+            static void mult9(Stack pill)
+            {
+            if(pill.Count!=0)
+                {
+                bool band = false;
+                foreach (int n in pill)
+                {
+                    //si el elemento es divisible por 9 se imprime
+                    if (n % 9 == 0)
+                    {
+                        Console.WriteLine(" {0} ", n);
+                        band = true;
+                    }
+                }
+                if (!band)
+                {
+                    mensaje("no hay multiplos de 9 en la pila");
+                }
+            }
+            else
+            {
+                mensaje("la pila no presenta elementos");
+            }
+            }
+            static void impar(Stack pill, Stack piax)
+            {
+            if (pill.Count != 0)
+            {
+                bool band = false;
+                foreach (int n in pill)
+                {
+
+                    if (n % 2 != 0)
+                    {
+                        Console.WriteLine("el impar {0} se ha eliminado",n);
+                        band = true;
+                    }
+                    else
+                    {
+                        piax.Push(n);
+                    }
+                }
+                if (!band)
+                {
+                    mensaje("no hay numeros impares");
+                }
+                pill.Clear();
+                llenar(pill, piax);
+            }
+            else
+            {
+                mensaje("no hay elementos en la pila");
+            }
+            }
+            static void fondo(Stack pill)
+            {
+            if (pill.Count != 0)
+            {
+                Stack piax = new Stack();
+                //cruzar lo elemtos de la pila principal a la auxiliar para que asi
+                //el elemeno del fondo quede de primero en la pila auxiliar
+                int v = 0;
+                llenar(piax, pill);
+                v = (int)pill.Pop();
+                Console.WriteLine("el del fondo: {0}",v);
+                pill.Clear();
+                //volvemos acrzar los elemto de la pila auxliar a la principal pero ya se a eliminado el elemto del fondo
+                llenar(pill, piax);
+            }
+            else
+            {
+                mensaje("no hay elementos");
+            }
+            }
+            static void sume(Stack pill)
+            {
+            if (pill.Count != 0)
+            {
+                int se = 0;
+                foreach (int n in pill)
+                    se += n;
+                Console.WriteLine(" {0} ", se);
+            }
+            else
+            {
+                mensaje("no hay elementos en la pila");
+            }
+            }
+            static void primos(Stack pill)
+            {
+            if (pill.Count != 0)
+            {
+                Stack piax = new Stack();
+                int cd = 0;
+                bool band = false;
+                foreach (int n in pill)
+                {//i ira de devisor del elemento hasta llegar al valor del elemento
+                    for (int i = 1; i <= n; i++)
+                    {
+                        //si n(elemento) es divisible por i contara como divisar
+                        if (n % i == 0)
+                        {
+                            cd++;
+                            band = true;
+                        }
+                    }
+                    //el contador debe de poseer el valor de 2 que indica que el elemto solo tiene dos divisores por lo tanto es primo
+                    if (cd != 2)
+                    {
+                        piax.Push(n);
+                    }
+                }
+                if (!band)
+                {
+                    mensaje("hay numeros primos");
+                }
+                pill.Clear();
+                llenar(pill, piax);
+            }
+            else
+            {
+                mensaje("no hay elemtos");
+            }
+            }
+        
+    }
+}
+
